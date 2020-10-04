@@ -1,7 +1,7 @@
 const Invoice = require("../model/invoiceModel");
 const generateId = require("../shared/createUniqueId");
 const fetch = require("node-fetch");
-const url = process.env.MONGODB_URI;
+const url = process.env.API_URL;
 const orderController = require("../controller/orderController");
 const pdfMake = require("../pdfmake/pdfmake");
 const vfsFonts = require("../pdfmake/vfs_fonts");
@@ -9,6 +9,26 @@ const invoiceCreateDoc = require("../docs/invoiceCreateDoc");
 const events = require("events");
 const Email = require("../config/email");
 require("dotenv").config();
+
+const http = require("http");
+const https = require("https");
+
+const httpAgent = new http.Agent({
+  keepAlive: true,
+});
+const httpsAgent = new https.Agent({
+  keepAlive: true,
+});
+
+const options = {
+  agent: function (_parsedURL) {
+    if (_parsedURL.protocol == "http:") {
+      return httpAgent;
+    } else {
+      return httpsAgent;
+    }
+  },
+};
 
 pdfMake.vfs = vfsFonts.pdfMake.vfs;
 var eventEmitter = new events.EventEmitter();
@@ -43,17 +63,22 @@ const getData = async (url) => {
 
 exports.createInvoice = async (req, res) => {
   try {
-
-   const invoiceId = "INV-" + generateId();
-   const notes = req.body.notes;
+    const invoiceId = "INV-" + generateId();
+    const notes = req.body.notes;
     invoicepdf = await createDoc(
-      invoiceCreateDoc.create("INVOICE", "This is the subject", invoiceId, notes)
+      invoiceCreateDoc.create(
+        "INVOICE",
+        "This is the subject",
+        invoiceId,
+        notes
+      )
     );
 
     const orderId = req.body.orderId;
-    const response = await fetch(`${url}/order/${orderId}`);
+    const response = await fetch(
+      `${url}order/${orderId}`
+    );
     const json = await response.json();
-
     productData = json;
 
     let invoice = new Invoice({
@@ -136,13 +161,13 @@ exports.emailInvoiceById = async (req, res, next) => {
             contentType: "application/pdf",
             encoding: "base64",
           },
-        ]
+        ];
 
         Email.SendEmail(
           customerEmail,
           "Welocme to Company ",
           productid,
-          attachment   
+          attachment
         );
         //console.log(productData);
         //getData(url);
