@@ -51,7 +51,7 @@ exports.createInvoice = async (req, res) => {
     );
 
     const orderId = req.body.orderId;
-    const response = await fetch(`${url}order/${orderId}`);
+    const response = await fetch(`${url}/order/${orderId}`);
     const json = await response.json();
 
     productData = json;
