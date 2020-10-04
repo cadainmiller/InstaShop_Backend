@@ -30,6 +30,7 @@ require("./config/db")(app);
 // define first route
 app.get("/api", (req, res) => {
   console.log("Hello MEAN Soldier...Ready For Battle??");
+  res.send("Working")
 });
 
 app.use("/user", userRoutes);
