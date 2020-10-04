@@ -5,11 +5,11 @@ require("dotenv").config();
 const SendEmail = (to, subject, body, attachments) => {
   const config = {
     mailserver: {
-      host: "smtp.mailtrap.io",
-      port: 2525,
+      host: process.env.MAILSERVER_HOST,
+      port: process.env.MAILSERVER_PORT,
       auth: {
-        user: "cf53c3c0db5f08",
-        pass: "e2d1763af36fab",
+        user: process.env.MAILSERVER_USER,
+        pass: process.env.MAILSERVER_PASS,
       },
     },
     mail: {

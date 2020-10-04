@@ -29,9 +29,14 @@ require("./config/db")(app);
 
 // define first route
 app.get("/api", (req, res) => {
-  console.log("Hello MEAN Soldier...Ready For Battle??");
   res.send("Working Ya")
 });
+
+// define first route
+app.get("/", (req, res) => {
+  res.send("API LIVE")
+});
+
 
 app.use("/user", userRoutes);
 app.use("/product", productRoutes);

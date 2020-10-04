@@ -75,9 +75,7 @@ exports.createInvoice = async (req, res) => {
     );
 
     const orderId = req.body.orderId;
-    const response = await fetch(
-      `${url}order/${orderId}`
-    );
+    const response = await fetch(`${url}order/${orderId}`);
     const json = await response.json();
     productData = json;
 
@@ -152,7 +150,6 @@ exports.emailInvoiceById = async (req, res, next) => {
         productid = invoice.order.toString();
         customerEmail = invoice.order.customer_info.email.toString();
         id = invoice.invoiceId.toString();
-        const [head, data] = sendData.split(",");
 
         const attachment = [
           {
@@ -164,14 +161,12 @@ exports.emailInvoiceById = async (req, res, next) => {
         ];
 
         Email.SendEmail(
-          customerEmail,
+          `${customerEmail}`,
           "Welocme to Company ",
           productid,
           attachment
         );
-        //console.log(productData);
-        //getData(url);
-        res.status(200).json({ Invoice: invoice });
+        res.status(200).json(`INVOICE-${id} Was Sent to ${customerEmail}`);
       }
     );
   } catch (error) {
