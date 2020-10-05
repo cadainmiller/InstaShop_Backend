@@ -2,7 +2,7 @@
 const data = require("./data.json");
 
 const create = (title, subject, id, notes, order) => {
-  //const data = { orderId: "ORD-10330938", status: "Processed" };
+  //const data = order;
   const splitId = id.split("-");
   const companyName = 'Your Company Name'
   const today = new Date();
@@ -20,7 +20,7 @@ const create = (title, subject, id, notes, order) => {
   function generateRows(payrolls) {
     var tempObj = {};
     var tempArr = [];
-    for (var i = 0; i < data.invoice.order.products.length; i++) {
+    for (var i = 0; i < data.products.length; i++) {
       tempArr.push({
         ID: payrolls[i].wageTypeId,
         description: payrolls[i].wageType.description,
@@ -53,7 +53,7 @@ const create = (title, subject, id, notes, order) => {
       ],
     ];
 
-    for (var i = 0; i < data.invoice.order.products.length; i++) {
+    for (var i = 0; i < data.products.length; i++) {
       tempArr.push([
         {
           text: `${payrolls[i].name}`,
@@ -72,7 +72,7 @@ const create = (title, subject, id, notes, order) => {
     }
     return tempArr;
   }
-  const ProductsData = GetProducts(data.invoice.order.products);
+  const ProductsData = GetProducts(data.products);
   //console.log(ProductsData);
 
   const documentDefinition = {
@@ -227,7 +227,7 @@ const create = (title, subject, id, notes, order) => {
             alignment: "left",
           },
           {
-            text: `${data.invoice.order.customer_info.first_name} ${data.invoice.order.customer_info.last_name}`,
+            text: `${data.customer_info.first_name} ${data.customer_info.last_name}`,
             bold: true,
             color: "#333333",
             alignment: "left",
@@ -258,24 +258,24 @@ const create = (title, subject, id, notes, order) => {
           },
           {
             text: `${
-              data.invoice.order.shipping_address.street
-                ? data.invoice.order.shipping_address.street
+              data.shipping_address.street
+                ? data.shipping_address.street
                 : "-"
             } \n ${
-              data.invoice.order.shipping_address.street2
-                ? data.invoice.order.shipping_address.street2
+              data.shipping_address.street2
+                ? data.shipping_address.street2
                 : "-"
             } \n ${
-              data.invoice.order.shipping_address.city
-                ? data.invoice.order.shipping_address.city
+              data.shipping_address.city
+                ? data.shipping_address.city
                 : "-"
             }\n ${
-              data.invoice.order.shipping_address.parish
-                ? data.invoice.order.shipping_address.parish
+              data.shipping_address.parish
+                ? data.shipping_address.parish
                 : "-"
             } \n ${
-              data.invoice.order.shipping_address.zip
-                ? data.invoice.order.shipping_address.zip
+              data.shipping_address.zip
+                ? data.shipping_address.zip
                 : "-"
             }`,
             style: "invoiceBillingAddress",
@@ -389,7 +389,7 @@ const create = (title, subject, id, notes, order) => {
               },
               {
                 border: [false, true, false, true],
-                text: `$${data.invoice.order.tax}`,
+                text: `$${data.tax}`,
                 alignment: "right",
                 fillColor: "#f5f5f5",
                 margin: [0, 5, 0, 5],
@@ -420,7 +420,7 @@ const create = (title, subject, id, notes, order) => {
                 margin: [0, 5, 0, 5],
               },
               {
-                text: `$${data.invoice.order.final_cost}`,
+                text: `$${data.final_cost}`,
                 bold: true,
                 fontSize: 20,
                 alignment: "right",

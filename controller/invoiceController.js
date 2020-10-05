@@ -75,6 +75,7 @@ exports.createInvoice = async (req, res) => {
   try {
     const invoiceId = "INV-" + generateId();
     const notes = req.body.notes;
+    
     invoicepdf = await createDoc(
       invoiceCreateDoc.create(
         "INVOICE",
