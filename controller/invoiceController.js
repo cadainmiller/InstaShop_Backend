@@ -183,7 +183,7 @@ exports.emailInvoiceById = async (req, res, next) => {
           email,
           attachment
         );
-        res.status(200).json(`INVOICE-${id} Was Sent to ${customerEmail}`);
+        res.status(200).json(`${id} Was Sent to ${customerEmail}`);
       }
     );
   } catch (error) {
