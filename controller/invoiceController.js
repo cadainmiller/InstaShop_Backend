@@ -9,6 +9,12 @@ const invoiceCreateDoc = require("../docs/invoiceCreateDoc");
 const events = require("events");
 const Email = require("../config/email");
 require("dotenv").config();
+const today = new Date();
+
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 const http = require("http");
 const https = require("https");
@@ -42,8 +48,12 @@ function functionData(data) {
   }
 }
 
-function pdfHandler(data) {
-  invoicepdf = data;
+function calDueDate() {
+  dueDate = today.getDate() + 7;
+  dueYear = today.getFullYear();
+  dueMonth = monthNames[today.getMonth()];
+
+  return `${dueMonth} ${dueDate}, ${dueYear}`;
 }
 
 function createDoc(info) {
@@ -147,9 +157,18 @@ exports.emailInvoiceById = async (req, res, next) => {
         }
 
         sendData = invoice.invoiceDoc.toString();
-        productid = invoice.order.toString();
         customerEmail = invoice.order.customer_info.email.toString();
         id = invoice.invoiceId.toString();
+
+        const dueDate = calDueDate();
+
+        email = `Hi ${invoice.order.customer_info.first_name},
+        I hope you’re well! '\n' Please see attached invoice number ${
+          id.split("-")[1]
+        } for ${invoice.order.orderId.split("-")[1]}, 
+        due on ${dueDate}. Don’t hesitate to reach out if you have any questions.
+        Kind regards,
+        Business Name`;
 
         const attachment = [
           {
@@ -161,9 +180,9 @@ exports.emailInvoiceById = async (req, res, next) => {
         ];
 
         Email.SendEmail(
-          `${customerEmail}`,
+          `imwildcode@gmail.com`,
           "Welocme to Company ",
-          productid,
+          email,
           attachment
         );
         res.status(200).json(`INVOICE-${id} Was Sent to ${customerEmail}`);

@@ -7,6 +7,7 @@ const SendEmail = (to, subject, body, attachments) => {
     mailserver: {
       host: process.env.MAILSERVER_HOST,
       port: process.env.MAILSERVER_PORT,
+      secure: true,
       auth: {
         user: process.env.MAILSERVER_USER,
         pass: process.env.MAILSERVER_PASS,
