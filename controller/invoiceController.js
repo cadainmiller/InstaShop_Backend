@@ -162,12 +162,10 @@ exports.emailInvoiceById = async (req, res, next) => {
 
         const dueDate = calDueDate();
 
-        email = `Hi ${invoice.order.customer_info.first_name},
-        I hope you’re well! '\n' Please see attached invoice number ${
-          id.split("-")[1]
-        } for ${invoice.order.orderId.split("-")[1]}, 
-        due on ${dueDate}. Don’t hesitate to reach out if you have any questions.
-        Kind regards,
+        email = `Hi ${invoice.order.customer_info.first_name},<br><br>
+        I hope you’re well!<br> Please see attached invoice below.<br>
+        This is due on ${dueDate}.<br><br>
+        Kind regards,<br>
         Business Name`;
 
         const attachment = [
