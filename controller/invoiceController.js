@@ -178,7 +178,7 @@ exports.emailInvoiceById = async (req, res, next) => {
         ];
 
         Email.SendEmail(
-          `imwildcode@gmail.com`,
+          [`imwildcode@gmail.com`],
           "Welocme to Company ",
           email,
           attachment
