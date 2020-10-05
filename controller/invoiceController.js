@@ -11,9 +11,19 @@ const Email = require("../config/email");
 require("dotenv").config();
 const today = new Date();
 
-
-const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const http = require("http");
@@ -75,19 +85,20 @@ exports.createInvoice = async (req, res) => {
   try {
     const invoiceId = "INV-" + generateId();
     const notes = req.body.notes;
+    const orderId = req.body.orderId;
+    const response = await fetch(`${url}order/${orderId}`);
+    const json = await response.json();
+    productData = json;
+    
     invoicepdf = await createDoc(
       invoiceCreateDoc.create(
         "INVOICE",
         "This is the subject",
         invoiceId,
-        notes
+        notes,
+        productData
       )
     );
-
-    const orderId = req.body.orderId;
-    const response = await fetch(`${url}order/${orderId}`);
-    const json = await response.json();
-    productData = json;
 
     let invoice = new Invoice({
       invoiceId: invoiceId,
@@ -179,8 +190,8 @@ exports.emailInvoiceById = async (req, res, next) => {
 
         Email.SendEmail(
           [`imwildcode@gmail.com`],
-          "Welocme to Company ",
-          email,
+          `COMPANY NAME (${id}) `,
+          email,  
           attachment
         );
         res.status(200).json(`${id} Was Sent to ${customerEmail}`);
