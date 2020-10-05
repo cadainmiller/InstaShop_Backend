@@ -12,6 +12,10 @@ const SendEmail = (to, subject, body, attachments) => {
         user: process.env.MAILSERVER_USER,
         pass: process.env.MAILSERVER_PASS,
       },
+      tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false,
+      },
     },
     mail: {
       from: "Steve Milburn <no-reply@blog.com>",
