@@ -62,17 +62,21 @@ exports.createInvoice = async (req, res) => {
     const notes = req.body.notes;
     const orderId = req.body.orderId;
     productData = await fetchOrderId(orderId);
-    const staticJsonData1 = productData;
+
+    const productDataJson = productData;
+    
     invoicepdf = await createDoc(
       invoiceCreateDoc.create(
         "INVOICE",
         "This is the subject",
         invoiceId,
-        staticJsonData1,
+        productDataJson,
         notes
       )
     );
+
     productData = await fetchOrderId(orderId);
+
     let invoice = new Invoice({
       invoiceId: invoiceId,
       order: productData,

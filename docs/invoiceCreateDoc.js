@@ -1,13 +1,11 @@
-//const data = { orderId: "ORD-10330938", status: "Processed" };
-//const data = require("./data.json");
-
 const create = (title, subject, id, order, notes) => {
   const data = order;
-  console.log(data.orderId)
   const splitId = id.split("-");
   const companyName = "Your Company Name";
   const today = new Date();
   const invoiceDateCreated = today.toLocaleDateString("en-US");
+
+
 
   function table(data, columns) {
     return {
@@ -37,8 +35,16 @@ const create = (title, subject, id, order, notes) => {
     var tempArr = [
       [
         {
+          text: "ITEM",
+          fillColor: "#eaf2f5",
+          border: [false, true, false, true],
+          margin: [0, 5, 0, 5],
+          textTransform: "uppercase",
+        },
+        {
           text: "ITEM DESCRIPTION",
           fillColor: "#eaf2f5",
+         // alignment: "center",
           border: [false, true, false, true],
           margin: [0, 5, 0, 5],
           textTransform: "uppercase",
@@ -55,9 +61,16 @@ const create = (title, subject, id, order, notes) => {
     ];
 
     for (var i = 0; i < data.products.length; i++) {
+      console.log(`${payrolls[i].description.slice()}....`)
       tempArr.push([
         {
           text: `${payrolls[i].name}`,
+          border: [false, false, false, true],
+          margin: [0, 5, 0, 5],
+          alignment: "left",
+        },
+        {
+          text: `${payrolls[i].description}`,
           border: [false, false, false, true],
           margin: [0, 5, 0, 5],
           alignment: "left",
@@ -181,11 +194,11 @@ const create = (title, subject, id, order, notes) => {
                       width: "*",
                     },
                     {
-                      text: "PAID",
+                      text: `${data.status}`,
                       bold: true,
                       fontSize: 14,
                       alignment: "right",
-                      color: "green",
+                      color: "gray",
                       width: 100,
                     },
                   ],
@@ -234,7 +247,7 @@ const create = (title, subject, id, order, notes) => {
       {
         columns: [
           {
-            text: "Address",
+            text: "",
             color: "#aaaaab",
             bold: true,
             margin: [0, 7, 0, 3],
@@ -250,7 +263,8 @@ const create = (title, subject, id, order, notes) => {
       {
         columns: [
           {
-            text: "9999 Street name 1A \n New-York City NY 00000 \n   USA ",
+            //text: "9999 Street name 1A \n New-York City NY 00000 \n   USA ",
+            text: "",
             style: "invoiceBillingAddress",
           },
           {
@@ -322,7 +336,7 @@ const create = (title, subject, id, order, notes) => {
         },
         table: {
           headerRows: 1,
-          widths: ["*", 80],
+          widths: ["*", "auto", 80],
           body: ProductsData,
         },
       },
