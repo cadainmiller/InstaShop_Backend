@@ -1,8 +1,8 @@
 //const data = { orderId: "ORD-10330938", status: "Processed" };
-const data = require("./data.json");
+//const data = require("./data.json");
 
 const create = (title, subject, id, notes, order) => {
-  //const data = order;
+  const data = order;
   const splitId = id.split("-");
   const companyName = 'Your Company Name'
   const today = new Date();

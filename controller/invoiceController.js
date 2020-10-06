@@ -71,25 +71,20 @@ function createDoc(info) {
   pdfsomething.getDataUrl(functionData);
 }
 
-const getData = async (url) => {
-  try {
-    const response = await fetch(url);
-    const json = await response.json();
-    productData = json;
-  } catch (error) {}
-};
-
-//createDoc(invoiceCreateDoc.create("INVOICE", "This is the subject"));
-
 exports.createInvoice = async (req, res) => {
   try {
     const invoiceId = "INV-" + generateId();
     const notes = req.body.notes;
+    // invoicepdf = await createDoc(
+    //   invoiceCreateDoc.create("INVOICE", "This is the subject", invoiceId, notes)
+    // );
+
     const orderId = req.body.orderId;
     const response = await fetch(`${url}order/${orderId}`);
     const json = await response.json();
+
     productData = json;
-    
+
     invoicepdf = await createDoc(
       invoiceCreateDoc.create(
         "INVOICE",
@@ -99,6 +94,8 @@ exports.createInvoice = async (req, res) => {
         productData
       )
     );
+    
+    console.log(invoicepdf);
 
     let invoice = new Invoice({
       invoiceId: invoiceId,
@@ -191,7 +188,7 @@ exports.emailInvoiceById = async (req, res, next) => {
         Email.SendEmail(
           [`imwildcode@gmail.com`],
           `COMPANY NAME (${id}) `,
-          email,  
+          email,
           attachment
         );
         res.status(200).json(`${id} Was Sent to ${customerEmail}`);
