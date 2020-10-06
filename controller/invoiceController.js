@@ -11,9 +11,6 @@ const Email = require("../config/email");
 require("dotenv").config();
 const today = new Date();
 
-//Static Json Data
-const staticJsonData = require("../docs/data.json");
-
 const monthNames = [
   "January",
   "February",
@@ -64,18 +61,18 @@ exports.createInvoice = async (req, res) => {
     const invoiceId = "INV-" + generateId();
     const notes = req.body.notes;
     const orderId = req.body.orderId;
-
+    productData = await fetchOrderId(orderId);
+    const staticJsonData1 = productData;
     invoicepdf = await createDoc(
       invoiceCreateDoc.create(
         "INVOICE",
         "This is the subject",
         invoiceId,
-        staticJsonData,
+        staticJsonData1,
         notes
       )
     );
-
-    productData = await fetchOrderId("ORD-90123524");
+    productData = await fetchOrderId(orderId);
     let invoice = new Invoice({
       invoiceId: invoiceId,
       order: productData,

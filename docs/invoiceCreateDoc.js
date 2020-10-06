@@ -3,6 +3,7 @@
 
 const create = (title, subject, id, order, notes) => {
   const data = order;
+  console.log(data.orderId)
   const splitId = id.split("-");
   const companyName = "Your Company Name";
   const today = new Date();
