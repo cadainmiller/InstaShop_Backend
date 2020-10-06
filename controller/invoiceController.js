@@ -72,6 +72,8 @@ function createDoc(info) {
 }
 
 exports.createInvoice = async (req, res) => {
+  const response = await fetch(`${url}order/ORD-90123524`);
+
   try {
     const invoiceId = "INV-" + generateId();
     const notes = req.body.notes;
@@ -81,38 +83,37 @@ exports.createInvoice = async (req, res) => {
 
     const orderId = req.body.orderId;
     const response = await fetch(`${url}order/${orderId}`);
-    const json = await response.json();
+    const json = await response.json().then(async (value) => {
+      productData = value;
+      const invoicepdf = await createDoc(
+        invoiceCreateDoc.create(
+          "INVOICE",
+          "This is the subject",
+          invoiceId,
+          notes,
+          value
+        )
+      );
 
-    productData = json;
+      console.log(invoicepdf)
 
-    invoicepdf = await createDoc(
-      invoiceCreateDoc.create(
-        "INVOICE",
-        "This is the subject",
-        invoiceId,
-        notes,
-        productData
-      )
-    );
-    
-    console.log(invoicepdf);
+      let invoice = new Invoice({
+        invoiceId: invoiceId,
+        order: productData,
+        notes: notes,
+        invoiceDoc: invoicepdf,
+      });
 
-    let invoice = new Invoice({
-      invoiceId: invoiceId,
-      order: productData,
-      notes: notes,
-      invoiceDoc: invoicepdf,
-    });
+      let createInvoice = await invoice.save();
 
-    let createInvoice = await invoice.save();
-
-    res.status(200).json({
-      msg: "New Invoice created",
-      data: createInvoice,
-      request: {
-        type: "GET",
-        url: "http://localhost:4000/invoice/" + createInvoice.invoiceId,
-      },
+      res.status(200).json({
+        msg: "New Invoice created",
+        data: createInvoice,
+        request: {
+          type: "GET",
+          url: "http://localhost:4000/invoice/" + createInvoice.invoiceId,
+        },
+      });
     });
   } catch (err) {
     console.log(err);
