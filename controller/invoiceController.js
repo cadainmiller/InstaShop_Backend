@@ -65,29 +65,22 @@ exports.createInvoice = async (req, res) => {
     const notes = req.body.notes;
     const orderId = req.body.orderId;
 
-    productData = await fetchOrderId(orderId);
+    invoicepdf = await createDoc(
+      invoiceCreateDoc.create(
+        "INVOICE",
+        "This is the subject",
+        invoiceId,
+        staticJsonData,
+        notes
+      )
+    );
 
-    async function buildPdf() {
-      invoicepdf = await createDoc(
-        invoiceCreateDoc.create(
-          "INVOICE",
-          "This is the subject",
-          invoiceId,
-          staticJsonData,
-          notes
-        )
-      );
-      return invoicepdf;
-    }
-
-    pdfDoc = await buildPdf();
-    console.log(pdfDoc)
-
+    productData = await fetchOrderId("ORD-90123524");
     let invoice = new Invoice({
       invoiceId: invoiceId,
       order: productData,
       notes: notes,
-      invoiceDoc: await buildPdf(),
+      invoiceDoc: invoicepdf,
     });
 
     let createInvoice = await invoice.save();
@@ -95,10 +88,6 @@ exports.createInvoice = async (req, res) => {
     res.status(200).json({
       msg: "New Invoice created",
       data: createInvoice,
-      request: {
-        type: "GET",
-        url: "http://localhost:4000/invoice/" + createInvoice.invoiceId,
-      },
     });
   } catch (err) {
     console.log(err);
