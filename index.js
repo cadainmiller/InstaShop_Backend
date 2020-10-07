@@ -29,7 +29,7 @@ app.use(morgan("dev")); // configire morgan
 require("./config/db")(app);
 //db config ends here
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // define first route
 app.get("/api", (req, res) => {
   res.send("Working Ya");

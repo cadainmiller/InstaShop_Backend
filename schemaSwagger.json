@@ -1,0 +1,24 @@
+{
+  "definitions": {
+    "userModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "user_image": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "integer"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
