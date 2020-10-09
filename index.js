@@ -18,6 +18,11 @@ app.use(cors()); // configure cors
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  next();
+});
+
 // Make "public" Folder Publicly Available
 app.use("/public", express.static("public"));
 
