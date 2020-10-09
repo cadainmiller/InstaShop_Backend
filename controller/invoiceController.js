@@ -131,45 +131,45 @@ exports.getInvoiceById = async (req, res, next) => {
 
 exports.emailInvoiceByOrderId = async (req, res, next) => {
   try {
-    const orderId = req.params.invoiceId;
-    const invoice = await Invoice.findOne({ "order.orderId": orderId }).exec(
-      (err, invoice) => {
-        if (err) {
-          res.status(500).json(err);
-        } else if (!invoice) {
-          res.status(404).json("Invoice does not exist");
-        }
+    const orderId = req.params.orderId;z
+    const invoice = await Invoice.findOne({
+      "order.orderId": orderId,
+    }).exec((err, invoice) => {
+      if (err) {
+        res.status(500).json(err);
+      } else if (!invoice) {
+        res.status(404).json("Invoice does not exist");
+      }
 
-        sendData = invoice.invoiceDoc.toString();
-        customerEmail = invoice.order.customer_info.email.toString();
-        id = invoice.invoiceId.toString();
+      sendData = invoice.invoiceDoc.toString();
+      customerEmail = invoice.order.customer_info.email.toString();
+      id = invoice.invoiceId.toString();
 
-        const dueDate = calDueDate();
+      const dueDate = calDueDate();
 
-        email = `Hi ${invoice.order.customer_info.first_name},<br><br>
+      email = `Hi ${invoice.order.customer_info.first_name},<br><br>
         I hope you’re well!<br> Please see attached invoice below.<br>
         This is due on ${dueDate}.<br><br>
         Kind regards,<br>
         Business Name`;
 
-        const attachment = [
-          {
-            filename: `INVOICE-${id}.pdf`,
-            content: sendData.split("base64,")[1],
-            contentType: "application/pdf",
-            encoding: "base64",
-          },
-        ];
+      const attachment = [
+        {
+          filename: `INVOICE-${id}.pdf`,
+          content: sendData.split("base64,")[1],
+          contentType: "application/pdf",
+          encoding: "base64",
+        },
+      ];
 
-        Email.SendEmail(
-          [`imwildcode@gmail.com`],
-          `COMPANY NAME (${id}) `,
-          email,
-          attachment
-        );
-        res.status(200).json(`${id} Was Sent to ${customerEmail}`);
-      }
-    );
+      Email.SendEmail(
+        [`imwildcode@gmail.com`],
+        `COMPANY NAME (${id}) `,
+        email,
+        attachment
+      );
+      res.status(200).json(`${id} Was Sent to ${customerEmail}`);
+    });
   } catch (error) {
     next(error);
   }
