@@ -32,7 +32,7 @@
             "in": "body",
             "description": "User that we want to create",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/userModel"
             }
           }
         ],
@@ -41,9 +41,34 @@
           "200": {
             "description": "New user is created",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/userModel"
             }
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "userModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "user_image": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "integer"
+        },
+        "role": {
+          "type": "string"
         }
       }
     }
