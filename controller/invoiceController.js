@@ -64,7 +64,7 @@ exports.createInvoice = async (req, res) => {
     productData = await fetchOrderId(orderId);
 
     const productDataJson = productData;
-    
+
     invoicepdf = await createDoc(
       invoiceCreateDoc.create(
         "INVOICE",
@@ -129,10 +129,10 @@ exports.getInvoiceById = async (req, res, next) => {
   }
 };
 
-exports.emailInvoiceById = async (req, res, next) => {
+exports.emailInvoiceByOrderId = async (req, res, next) => {
   try {
     const orderId = req.params.invoiceId;
-    const invoice = await Invoice.findOne({ order: {orderId: orderId }}).exec(
+    const invoice = await Invoice.findOne({ "order.orderId": orderId }).exec(
       (err, invoice) => {
         if (err) {
           res.status(500).json(err);
