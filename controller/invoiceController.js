@@ -129,6 +129,24 @@ exports.getInvoiceById = async (req, res, next) => {
   }
 };
 
+exports.getInvoiceByOrderId = async (req, res, next) => {
+  try {
+    const orderId = req.params.orderId;
+    const invoice = await Invoice.findOne({ "order.orderId": orderId }).exec(
+      (err, invoice) => {
+        if (err) {
+          res.status(500).json(err);
+        } else if (!invoice) {
+          res.status(404).json("Invoice does not exist");
+        }
+        res.status(200).json({ invoice });
+      }
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.emailInvoiceByOrderId = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;z

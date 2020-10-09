@@ -6,6 +6,6 @@ const auth = require("../middleware/auth");
 router.post("/create", invoiceController.createInvoice);
 router.get("/:invoiceId", auth, invoiceController.getInvoiceById);
 router.get("/email/:orderId", auth, invoiceController.emailInvoiceByOrderId);
+router.get("/find/:orderId", auth, invoiceController.getInvoiceByOrderId);
 router.get("/", auth, invoiceController.getInvoice);
-
-module.exports = router;
+module.exports = router; 
