@@ -149,7 +149,7 @@ exports.getInvoiceByOrderId = async (req, res, next) => {
 
 exports.emailInvoiceByOrderId = async (req, res, next) => {
   try {
-    const orderId = req.params.orderId;z
+    const orderId = req.params.orderId;
     const invoice = await Invoice.findOne({
       "order.orderId": orderId,
     }).exec((err, invoice) => {
