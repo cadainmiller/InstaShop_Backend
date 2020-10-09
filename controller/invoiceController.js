@@ -131,8 +131,8 @@ exports.getInvoiceById = async (req, res, next) => {
 
 exports.emailInvoiceById = async (req, res, next) => {
   try {
-    const invoiceId = req.params.invoiceId;
-    const invoice = await Invoice.findOne({ invoiceId: invoiceId }).exec(
+    const orderId = req.params.invoiceId;
+    const invoice = await Invoice.findOne({ order: {orderId: orderId }}).exec(
       (err, invoice) => {
         if (err) {
           res.status(500).json(err);
