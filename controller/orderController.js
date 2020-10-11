@@ -107,7 +107,6 @@ exports.updateOrderById = async (req, res, next) => {
     const update = req.body;
     const orderId = req.params.orderId;
     await Order.findOneAndUpdate({ orderId: orderId }, update);
-    console.log(Order)
     const order = await Order.findOne({ orderId: orderId }).exec(
       (err, order) => {
         if (err) {

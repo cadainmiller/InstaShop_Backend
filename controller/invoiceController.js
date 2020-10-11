@@ -1,4 +1,5 @@
 const Invoice = require("../model/invoiceModel");
+const Order = require("../model/orderModel");
 const generateId = require("../shared/createUniqueId");
 const fetch = require("node-fetch");
 const url = process.env.API_URL;
@@ -62,6 +63,7 @@ exports.createInvoice = async (req, res) => {
     const notes = req.body.notes;
     const orderId = req.body.orderId;
     productData = await fetchOrderId(orderId);
+    await Order.findOneAndUpdate({ orderId: orderId }, {"hasInvoice": true});
 
     const productDataJson = productData;
 

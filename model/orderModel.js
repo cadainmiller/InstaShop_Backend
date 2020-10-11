@@ -132,6 +132,10 @@ const orderSchema = new Schema(
       type: String,
       // required: true,
     },
+    hasInvoice: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
