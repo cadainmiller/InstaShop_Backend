@@ -3,7 +3,6 @@ const Order = require("../model/orderModel");
 const Product = require("../model/productModel");
 
 exports.createOrder = async (req, res) => {
-
   const total_q = req.body.total * req.body.quantity;
   const gctTax = 0.165 * total_q;
   const totalcost = Math.round(gctTax * 100) / 100 + total_q;
@@ -102,3 +101,27 @@ exports.getOrderByID = async (req, res, next) => {
 //   Orders: orders,
 //   Product: product
 // });
+
+exports.updateOrderById = async (req, res, next) => {
+  try {
+    const update = req.body;
+    const orderId = req.params.orderId;
+    await Order.findOneAndUpdate({ orderId: orderId }, update);
+    console.log(Order)
+    const order = await Order.findOne({ orderId: orderId }).exec(
+      (err, order) => {
+        if (err) {
+          res.status(500).json(err);
+        } else if (!order) {
+          res.status(404).json();
+        }
+        res.status(200).json({
+          data: order,
+          message: "Order has been updated",
+        });
+      }
+    );
+  } catch (error) {
+    next(error);
+  }
+};

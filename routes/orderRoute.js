@@ -6,5 +6,6 @@ const auth = require("../middleware/auth");
 router.post("/create", orderController.createOrder);
 router.get("/",  orderController.getOrders);
 router.get("/:orderId", orderController.getOrderByID);
+router.put("/:orderId", orderController.updateOrderById);
 
 module.exports = router;
