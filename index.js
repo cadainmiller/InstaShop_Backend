@@ -13,35 +13,26 @@ const orderRoutes = require("./routes/orderRoute"); //bring in our order routes
 const uploadRoutes = require("./routes/uploadRoutes"); //bring in our upload routes
 swaggerDocument = require("./swagger.json");
 
-app.use(cors()); // configure cors
-//configure body parser
+app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-  //res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4201');
+  //res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4201");
   next();
 });
-
-// Make "public" Folder Publicly Available
 app.use("/public", express.static("public"));
-
 app.use(bodyParser.json());
-//configure body-parser ends here
-app.use(morgan("dev")); // configire morgan
-
-//bring in db config
+app.use(morgan("dev"));
 require("./config/db")(app);
-//db config ends here
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-// define first route
+
 app.get("/api", (req, res) => {
   res.send("Working Ya");
 });
 
-// define first route
 app.get("/", (req, res) => {
   res.send("API LIVE");
 });
