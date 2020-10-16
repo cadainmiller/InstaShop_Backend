@@ -18,8 +18,8 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(function (req, res, next) {
-  //res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-  res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+ // res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
   next();
 });
 app.use("/public", express.static("public"));
