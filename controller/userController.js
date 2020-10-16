@@ -99,20 +99,11 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.defineDummyData = async (req, res) => {
-  res.json({
-    message: "Hello World",
-  });
-};
-
 exports.getUsers = async (req, res, next) => {
   const users = await User.find({}).then();
   res.status(200).json({
-    userInfo: users,
-  });
-  res.json({
-    userInfo: users,
-  });
+    users,
+  })
 };
 
 exports.getUserById = async (req, res, next) => {
