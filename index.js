@@ -44,5 +44,5 @@ app.use("/invoice", invoiceRoutes);
 app.use("/upload", uploadRoutes);
 
 app.listen(PORT, () => {
-  console.log(`App is running on ${PORT}`);
+  console.log(`Server Live ${process.env.API_URL}:${PORT}`);
 });
